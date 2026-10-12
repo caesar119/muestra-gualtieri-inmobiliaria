@@ -60,6 +60,7 @@ export interface SiteConfig {
     email: string;
     location: string;
     hours: { day: string; hours: string }[];
+    hoursBadge: string;
   };
   contactForm: {
     heading: string;

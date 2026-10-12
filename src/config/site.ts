@@ -6,13 +6,16 @@ const FONT_STACK = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helve
 // (gualtierinqn.com.ar) y su ficha pública: ciudad, telefono y email son
 // reales. No tenemos logo ni colores de marca todavia -- paleta sobria,
 // sin inventar identidad visual que no nos mandaron.
+// Antiguedad del negocio y horarios de atencion no estan verificados:
+// por eso no se afirma "mas de 40 anios" y los horarios llevan badge
+// de ejemplo (hoursBadge), igual que las fichas de propiedades.
 export const siteConfig: SiteConfig = {
   meta: {
     lang: 'es',
     siteName: 'Gualtieri Inmobiliaria',
     tagline: 'Inmobiliaria en Neuquén Capital',
     description:
-      'Gualtieri Inmobiliaria: más de 40 años en Neuquén Capital. Propiedades en venta y alquiler, atención directa por teléfono y email.',
+      'Gualtieri Inmobiliaria en Neuquén Capital. Propiedades en venta y alquiler, atención directa por teléfono y email.',
     city: 'Neuquén Capital',
     province: 'Neuquén',
     isDemo: true,
@@ -43,7 +46,7 @@ export const siteConfig: SiteConfig = {
     ctaHref: 'tel:+542994435016',
     secondaryLabel: 'Ver propiedades',
     secondaryHref: '#propiedades',
-    trustPoints: ['Más de 40 años en Neuquén', 'Atención directa, sin intermediarios', 'Venta y alquiler'],
+    trustPoints: ['Atención directa, sin intermediarios', 'Venta y alquiler', 'Propiedades en Neuquén Capital'],
   },
   listings: {
     heading: 'Propiedades',
@@ -90,6 +93,7 @@ export const siteConfig: SiteConfig = {
       { day: 'Lunes a viernes', hours: '9:00–13:00 y 16:00–20:00' },
       { day: 'Sábados', hours: '9:00–13:00' },
     ],
+    hoursBadge: 'Horario de ejemplo',
   },
   contactForm: {
     heading: 'Consultá por una propiedad',
@@ -104,7 +108,7 @@ export const siteConfig: SiteConfig = {
   },
   footer: {
     businessName: 'Gualtieri Inmobiliaria',
-    rubroLine: 'Inmobiliaria en Neuquén Capital — más de 40 años en el rubro',
+    rubroLine: 'Inmobiliaria en Neuquén Capital',
     demoDisclaimer: 'Muestra preparada por Anett Digital. No es el sitio oficial de Gualtieri Inmobiliaria.',
   },
 };

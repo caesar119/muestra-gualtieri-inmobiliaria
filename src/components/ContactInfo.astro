@@ -17,6 +17,7 @@ const { config } = Astro.props;
       <div>
         <h3 class="flex items-center gap-2 text-lg font-semibold text-ink">
           <Icon name="clock" class="h-5 w-5 text-primary" /> Horarios
+          <span class="rounded-full bg-ink/5 px-3 py-1 text-xs font-medium text-ink/60">{config.contactInfo.hoursBadge}</span>
         </h3>
         <dl class="mt-4 divide-y divide-black/5 rounded-2xl border border-black/5 bg-white">
           {config.contactInfo.hours.map((row) => (
