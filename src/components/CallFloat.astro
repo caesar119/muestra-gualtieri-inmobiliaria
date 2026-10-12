@@ -1,0 +1,17 @@
+---
+import Icon from './Icon.astro';
+import type { SiteConfig } from '../config/site.types';
+
+interface Props {
+  config: SiteConfig;
+}
+const { config } = Astro.props;
+---
+
+<a
+  href={config.hero.ctaHref}
+  class="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg hover:bg-primary-dark"
+  aria-label={config.hero.ctaLabel}
+>
+  <Icon name="phone" class="h-6 w-6" />
+</a>

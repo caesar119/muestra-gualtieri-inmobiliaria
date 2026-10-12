@@ -1,0 +1,45 @@
+---
+import Icon from './Icon.astro';
+import type { SiteConfig } from '../config/site.types';
+
+interface Props {
+  config: SiteConfig;
+}
+const { config } = Astro.props;
+---
+
+<section class="bg-ink/[0.03] py-16 sm:py-20 lg:py-24">
+  <div class="mx-auto max-w-6xl px-5 sm:px-8">
+    <h2 class="section-heading">{config.contactInfo.heading}</h2>
+    <p class="section-subheading">{config.contactInfo.subheading}</p>
+
+    <div class="mt-10 grid gap-10 lg:grid-cols-2">
+      <div>
+        <h3 class="flex items-center gap-2 text-lg font-semibold text-ink">
+          <Icon name="clock" class="h-5 w-5 text-primary" /> Horarios
+        </h3>
+        <dl class="mt-4 divide-y divide-black/5 rounded-2xl border border-black/5 bg-white">
+          {config.contactInfo.hours.map((row) => (
+            <div class="flex items-center justify-between px-5 py-3">
+              <dt class="font-medium text-ink/80">{row.day}</dt>
+              <dd class="text-ink/60">{row.hours}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      <div class="space-y-3">
+        <h3 class="text-lg font-semibold text-ink">Datos de contacto</h3>
+        <a href={`tel:${config.contactInfo.phoneHref}`} class="flex items-center gap-3 text-ink/80 hover:text-primary">
+          <Icon name="phone" class="h-5 w-5 text-primary" /> {config.contactInfo.phoneDisplay}
+        </a>
+        <a href={`mailto:${config.contactInfo.email}`} class="flex items-center gap-3 text-ink/80 hover:text-primary">
+          <Icon name="mail" class="h-5 w-5 text-primary" /> {config.contactInfo.email}
+        </a>
+        <p class="flex items-start gap-3 text-ink/80">
+          <Icon name="map" class="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" /> {config.contactInfo.location}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
