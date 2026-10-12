@@ -1,0 +1,122 @@
+---
+import type { SiteConfig } from '../config/site.types';
+
+interface Props {
+  config: SiteConfig;
+}
+const { config } = Astro.props;
+---
+
+<section id="contacto" class="section">
+  <div class="mx-auto max-w-xl text-center">
+    <h2 class="section-heading">{config.contactForm.heading}</h2>
+    <p class="section-subheading mx-auto">{config.contactForm.subheading}</p>
+  </div>
+
+  <form
+    class="contact-form mx-auto mt-10 max-w-xl space-y-5 rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8"
+    data-mail-to={config.contactInfo.email}
+    data-subject-template={config.contactForm.mailSubjectTemplate}
+    data-body-template={config.contactForm.mailBodyTemplate}
+  >
+    <div>
+      <label for="nombre" class="block text-sm font-semibold text-ink">{config.contactForm.nameLabel}</label>
+      <input
+        id="nombre"
+        name="nombre"
+        type="text"
+        required
+        autocomplete="name"
+        class="mt-2 w-full rounded-xl border border-black/10 px-4 py-3 text-base text-ink focus:border-primary focus:outline-none"
+        placeholder="Tu nombre"
+      />
+    </div>
+
+    <div>
+      <label for="telefono" class="block text-sm font-semibold text-ink">{config.contactForm.phoneLabel}</label>
+      <input
+        id="telefono"
+        name="telefono"
+        type="tel"
+        required
+        autocomplete="tel"
+        class="mt-2 w-full rounded-xl border border-black/10 px-4 py-3 text-base text-ink focus:border-primary focus:outline-none"
+        placeholder="0299 123-4567"
+      />
+    </div>
+
+    <div>
+      <label for="mensaje" class="block text-sm font-semibold text-ink">{config.contactForm.messageLabel}</label>
+      <textarea
+        id="mensaje"
+        name="mensaje"
+        required
+        rows="4"
+        class="mt-2 w-full rounded-xl border border-black/10 px-4 py-3 text-base text-ink focus:border-primary focus:outline-none"
+        placeholder="Contanos qué estás buscando"
+      ></textarea>
+    </div>
+
+    <p class="form-error hidden text-sm font-medium text-red-600" role="alert">
+      Completá nombre, teléfono y mensaje antes de enviar.
+    </p>
+
+    <button type="submit" class="btn-primary w-full">
+      <span class="btn-label">{config.contactForm.submitLabel}</span>
+    </button>
+
+    <p class="form-success hidden text-center text-sm font-medium text-green-700" role="status">
+      {config.contactForm.successMessage}
+    </p>
+  </form>
+</section>
+
+<script>
+  // No hay backend todavia: arma el asunto/cuerpo con los 3 campos y abre
+  // el cliente de email directo a la casilla real de Gualtieri. Es el unico
+  // JS de toda la pagina.
+  const forms = document.querySelectorAll<HTMLFormElement>('.contact-form');
+
+  forms.forEach((form) => {
+    const mailTo = form.dataset.mailTo ?? '';
+    const subjectTemplate = form.dataset.subjectTemplate ?? 'Consulta — {nombre}';
+    const bodyTemplate = form.dataset.bodyTemplate ?? 'Nombre: {nombre}\nTeléfono: {telefono}\n\n{mensaje}';
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const label = form.querySelector('.btn-label');
+    const errorEl = form.querySelector('.form-error');
+    const successEl = form.querySelector('.form-success');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      errorEl?.classList.add('hidden');
+      successEl?.classList.add('hidden');
+
+      const data = new FormData(form);
+      const nombre = String(data.get('nombre') ?? '').trim();
+      const telefono = String(data.get('telefono') ?? '').trim();
+      const mensaje = String(data.get('mensaje') ?? '').trim();
+
+      if (!nombre || !telefono || !mensaje) {
+        errorEl?.classList.remove('hidden');
+        return;
+      }
+
+      const fill = (tpl: string) =>
+        tpl.replace('{nombre}', nombre).replace('{telefono}', telefono).replace('{mensaje}', mensaje);
+
+      const url = `mailto:${mailTo}?subject=${encodeURIComponent(fill(subjectTemplate))}&body=${encodeURIComponent(fill(bodyTemplate))}`;
+      successEl?.classList.remove('hidden');
+      window.location.href = url;
+
+      if (button && label) {
+        const originalLabel = label.textContent ?? '';
+        button.disabled = true;
+        label.textContent = 'Abriendo email…';
+        window.setTimeout(() => {
+          button.disabled = false;
+          label.textContent = originalLabel;
+        }, 1200);
+      }
+    });
+  });
+</script>

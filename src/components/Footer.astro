@@ -1,0 +1,20 @@
+---
+import type { SiteConfig } from '../config/site.types';
+
+interface Props {
+  config: SiteConfig;
+}
+const { config } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-black/5 bg-ink/[0.02] py-10">
+  <div class="mx-auto max-w-6xl px-5 text-center sm:px-8">
+    <p class="font-heading text-lg font-bold text-ink">{config.footer.businessName}</p>
+    <p class="mt-1 text-sm text-ink/60">{config.footer.rubroLine}</p>
+    <p class="mt-4 text-xs text-ink/70">
+      © {year} {config.footer.businessName}. {config.footer.demoDisclaimer}
+    </p>
+    <p class="mt-2 text-xs text-ink/70">Muestra hecha por Anett Digital — anettdigital.com</p>
+  </div>
+</footer>

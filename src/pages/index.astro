@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Listings from '../components/Listings.astro';
+import ContactInfo from '../components/ContactInfo.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Footer from '../components/Footer.astro';
+import CallFloat from '../components/CallFloat.astro';
+import { siteConfig } from '../config/site';
+---
+
+<BaseLayout config={siteConfig}>
+  <Header config={siteConfig} />
+  <main>
+    <Hero config={siteConfig} />
+    <Listings config={siteConfig} />
+    <ContactInfo config={siteConfig} />
+    <ContactForm config={siteConfig} />
+  </main>
+  <Footer config={siteConfig} />
+  <CallFloat config={siteConfig} />
+</BaseLayout>

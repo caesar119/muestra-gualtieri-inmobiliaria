@@ -1,0 +1,65 @@
+---
+import '../styles/global.css';
+import type { SiteConfig } from '../config/site.types';
+import { hexToRgbChannels } from '../config/color-utils';
+
+interface Props {
+  config: SiteConfig;
+  title?: string;
+}
+
+const { config, title } = Astro.props;
+const c = config.brand.colors;
+const pageTitle = title
+  ? `${title} | ${config.meta.siteName} — muestra`
+  : `${config.meta.siteName} — muestra | ${config.meta.tagline}`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'RealEstateAgent',
+  name: config.meta.siteName,
+  description: config.meta.description,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: config.meta.city,
+    addressRegion: config.meta.province,
+    addressCountry: 'AR',
+  },
+  telephone: config.contactInfo.phoneDisplay,
+  email: config.contactInfo.email,
+};
+---
+
+<!doctype html>
+<html lang={config.meta.lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={import.meta.env.BASE_URL.replace(/\/$/, '') + '/favicon.svg'} />
+    <meta name="description" content={config.meta.description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{pageTitle}</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={config.meta.description} />
+
+    <style set:html={`:root {
+      --color-primary: ${hexToRgbChannels(c.primary)};
+      --color-primary-dark: ${hexToRgbChannels(c.primaryDark)};
+      --color-primary-light: ${hexToRgbChannels(c.primaryLight)};
+      --color-accent: ${hexToRgbChannels(c.accent)};
+      --color-ink: ${hexToRgbChannels(c.ink)};
+      --font-heading: ${config.brand.fontHeading};
+      --font-body: ${config.brand.fontBody};
+    }`}></style>
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <div class="bg-ink py-2 text-center text-sm font-medium text-white">
+      {config.meta.disclaimerBanner}
+    </div>
+    <slot />
+  </body>
+</html>

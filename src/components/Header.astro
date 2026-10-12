@@ -1,0 +1,54 @@
+---
+import type { SiteConfig } from '../config/site.types';
+
+interface Props {
+  config: SiteConfig;
+}
+const { config } = Astro.props;
+---
+
+<header class="sticky top-0 z-50 border-b border-black/5 bg-white/90 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
+    <a href="#inicio" class="font-heading text-xl font-bold text-ink">
+      {config.brand.logoText}
+    </a>
+
+    <input type="checkbox" id="nav-toggle" class="peer hidden" aria-hidden="true" />
+
+    <nav class="hidden items-center gap-8 md:flex" aria-label="Principal">
+      {config.nav.map((item) => (
+        <a href={item.href} class="text-base font-medium text-ink/80 hover:text-primary">
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <a href={config.hero.ctaHref} class="btn-primary hidden md:inline-flex">
+      {config.hero.ctaLabel}
+    </a>
+
+    <label
+      for="nav-toggle"
+      class="flex h-11 w-11 items-center justify-center rounded-lg border border-black/10 md:hidden"
+    >
+      <span class="sr-only">Abrir menú</span>
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </label>
+  </div>
+
+  <nav
+    class="hidden flex-col gap-1 border-t border-black/5 bg-white px-5 py-3 peer-checked:flex md:hidden"
+    aria-label="Principal móvil"
+  >
+    {config.nav.map((item) => (
+      <a href={item.href} class="rounded-lg px-3 py-3 text-base font-medium text-ink/80 hover:bg-black/5">
+        {item.label}
+      </a>
+    ))}
+    <a href={config.hero.ctaHref} class="btn-primary mt-2 justify-center">
+      {config.hero.ctaLabel}
+    </a>
+  </nav>
+</header>
